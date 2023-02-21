@@ -2,10 +2,7 @@ package co.edu.uptc.model.dinamic;
 
 import co.edu.uptc.pojos.Node;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class UptcList implements List {
     private Node head;
@@ -168,27 +165,109 @@ public class UptcList implements List {
 
     @Override
     public Iterator iterator() {
+        Iterator iterator = new Iterator() {
+            private int index = 0;
 
-        return null;
+            @Override
+            public boolean hasNext() {
+                return index < size;
+            }
+
+            @Override
+            public Object next() {
+                return getNode(index++).getValue();
+            }
+        };
+        return iterator;
     }
 
     @Override
     public ListIterator listIterator() {
-        return null;
+        return listIterator(0);
     }
 
     @Override
     public ListIterator listIterator(int index) {
-        return null;
+        return new ListIterator() {
+            private int i = index;
+
+            @Override
+            public boolean hasNext() {
+                return getNode(i) != null;
+            }
+
+            @Override
+            public Object next() {
+                return getNode(i++).getValue();
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                if (i == 0) return false;
+                return getNode(i - 1) != null;
+            }
+
+            @Override
+            public Object previous() {
+                if (i == 0) throw new NoSuchElementException("No previous element");
+                return getNode(--i).getValue();
+            }
+
+            @Override
+            public int nextIndex() {
+                return i;
+            }
+
+            @Override
+            public int previousIndex() {
+                return i - 1;
+            }
+
+            @Override
+            public void remove() {
+                if (i > 0) UptcList.this.remove(--i);
+                else if (i == 0) UptcList.this.remove(i);
+            }
+
+            @Override
+            public void set(Object o) {
+                UptcList.this.set(i, o);
+            }
+
+            @Override
+            public void add(Object o) {
+                UptcList.this.add(i++, o);
+            }
+        };
     }
 
     @Override
     public boolean addAll(Collection c) {
+        Object[] temp = c.toArray();
+        for (int i = 0; i < temp.length; i++) {
+            add(temp[i]);
+        }
         return false;
     }
 
     @Override
     public boolean addAll(int index, Collection c) {
+        Node aux = head;
+        Node tempNode;
+        if (index == 0) {
+            tempNode = aux;
+            size = 0;
+            clear();
+            addAll(c);
+            add(tempNode);
+        } else {
+            aux = getNode(index);
+            tempNode = aux.getNext();
+            aux.setNext(null);
+            size = index;
+            addAll(c);
+            add(tempNode);
+        }
         return false;
     }
 
