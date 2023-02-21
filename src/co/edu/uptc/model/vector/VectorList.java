@@ -122,7 +122,6 @@ public class VectorList implements List{
     public Iterator iterator() {
         Iterator iterator = new Iterator() {
             int index = 0;
-            int next = 0;
             @Override
             public boolean hasNext() {
                 return (get(index+1) == null);
@@ -130,20 +129,70 @@ public class VectorList implements List{
 
             @Override
             public Object next() {
-                return get(next++);
+                return vector[index++];
             }
         };
         return iterator;
     }
 
+    // iterator y listIterator aun por testear
     @Override
     public ListIterator listIterator() {
-        return null;
+        return listIterator(0);
     }
 
     @Override
     public ListIterator listIterator(int index) {
-        return null;
+        return new ListIterator() {
+            int index = 0;
+            @Override
+            public boolean hasNext() {
+                return (get(index+1) == null);
+            }
+
+            @Override
+            public Object next() {
+                return vector[index++];
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return (get(index-1) == null);
+            }
+
+            @Override
+            public Object previous() {
+                if (index == 0) {
+                    throw new NoSuchElementException("No previous element");
+                }
+                return vector[index--];
+            }
+
+            @Override
+            public int nextIndex() {
+                return index+1;
+            }
+
+            @Override
+            public int previousIndex() {
+                return index-1;
+            }
+
+            @Override
+            public void remove() {
+                VectorList.this.remove(index);
+            }
+
+            @Override
+            public void set(Object o) {
+                VectorList.this.set(index, o);
+            }
+
+            @Override
+            public void add(Object o) {
+                VectorList.this.add(index, o);
+            }
+        };
     }
 
     @Override

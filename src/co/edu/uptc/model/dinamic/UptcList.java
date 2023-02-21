@@ -193,7 +193,7 @@ public class UptcList implements List {
 
             @Override
             public boolean hasNext() {
-                return getNode(i) != null;
+                return getNode(i+1) == null;
             }
 
             @Override
@@ -204,7 +204,7 @@ public class UptcList implements List {
             @Override
             public boolean hasPrevious() {
                 if (i == 0) return false;
-                return getNode(i - 1) != null;
+                return getNode(i - 1) == null;
             }
 
             @Override
@@ -215,7 +215,7 @@ public class UptcList implements List {
 
             @Override
             public int nextIndex() {
-                return i;
+                return i+1;
             }
 
             @Override
