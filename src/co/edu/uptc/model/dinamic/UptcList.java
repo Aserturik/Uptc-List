@@ -124,8 +124,14 @@ public class UptcList implements List {
     @Override
     public Object set(int index, Object element) {
         if(index == 0){
-            head.setValue(element);
-        }else{
+            if(isHeadNull()){
+                throw new IllegalStateException();
+            }else {
+                head.setValue(element);
+            }
+        } else if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        } else{
             Node tmp = getNode(index-1);
             tmp.getNext().setValue(element);
         }
@@ -219,57 +225,63 @@ public class UptcList implements List {
 
     @Override
     public ListIterator listIterator(int index) {
-        return new ListIterator() {
-            private int i = index;
+        if (index < 0 || index > size){
+            throw new IndexOutOfBoundsException();
+        }else {
+            return new ListIterator() {
+                private int i = index;
 
-            @Override
-            public boolean hasNext() {
-                return getNode(i+1) == null;
-            }
+                @Override
+                public boolean hasNext() {
+                    return getNode(i + 1) == null;
+                }
 
-            @Override
-            public Object next() {
-                return getNode(i++).getValue();
-            }
+                @Override
+                public Object next() {
+                    if((i+1 > size)){
+                        throw new NoSuchElementException();
+                    }
+                    return getNode(i++).getValue();
+                }
 
-            @Override
-            public boolean hasPrevious() {
-                if (i == 0) return false;
-                return getNode(i - 1) == null;
-            }
+                @Override
+                public boolean hasPrevious() {
+                    if (i == 0) return false;
+                    return getNode(i - 1) == null;
+                }
 
-            @Override
-            public Object previous() {
-                if (i == 0) throw new NoSuchElementException("No previous element");
-                return getNode(--i).getValue();
-            }
+                @Override
+                public Object previous() {
+                    return getNode(--i).getValue();
+                }
 
-            @Override
-            public int nextIndex() {
-                return i+1;
-            }
+                @Override
+                public int nextIndex() {
+                    return i + 1;
+                }
 
-            @Override
-            public int previousIndex() {
-                return i - 1;
-            }
+                @Override
+                public int previousIndex() {
+                    return i - 1;
+                }
 
-            @Override
-            public void remove() {
-                if (i > 0) UptcList.this.remove(--i);
-                else if (i == 0) UptcList.this.remove(i);
-            }
+                @Override
+                public void remove() {
+                    if (i > 0) UptcList.this.remove(--i);
+                    else if (i == 0) UptcList.this.remove(i);
+                }
 
-            @Override
-            public void set(Object o) {
-                UptcList.this.set(i, o);
-            }
+                @Override
+                public void set(Object o) {
+                    UptcList.this.set(i, o);
+                }
 
-            @Override
-            public void add(Object o) {
-                UptcList.this.add(i++, o);
-            }
-        };
+                @Override
+                public void add(Object o) {
+                    UptcList.this.add(i++, o);
+                }
+            };
+        }
     }
 
     @Override
@@ -291,35 +303,92 @@ public class UptcList implements List {
     public boolean addAll(int index, Collection c) {
         Node aux = head;
         Node tempNode;
+        int tempSize = size;
+        boolean isAdd = false;
         if (index == 0) {
             tempNode = aux;
-            size = 0;
             clear();
             addAll(c);
-            add(tempNode);
+            Node tmp = head;
+            while (tmp.getNext() != null) {
+                tmp = tmp.getNext();
+            }
+            tmp.setNext(tempNode);
+            size += tempSize;
+            isAdd = true;
         } else {
-            aux = getNode(index);
+            aux = getNode(index - 1);
             tempNode = aux.getNext();
             aux.setNext(null);
+            tempSize = size - (index);
             size = index;
             addAll(c);
-            add(tempNode);
+            Node tmp = head;
+            while (tmp.getNext() != null) {
+                tmp = tmp.getNext();
+            }
+            tmp.setNext(tempNode);
+            size += tempSize;
+            isAdd = true;
+        }
+        return isAdd;
+    }
+
+    @Override
+    public boolean retainAll(Collection c) {
+        Object[] temp = c.toArray();
+        Node aux = head;
+        boolean contains = false;
+        int count = 0;
+        for (int i = 0; i <= size; i++) {
+            contains = false;
+            for (int j = 0; j < temp.length; j++) {
+                if (aux.equals(temp[j])) {
+                    aux = aux.getNext();
+                    contains = true;
+                    count++;
+                }
+            }
+            if (contains == false) {
+                aux = aux.getNext();
+                remove(count);
+                if (i != 0)
+                    i -= 1;
+            }
+        }
+        return contains;
+    }
+
+    @Override
+    public boolean removeAll(Collection c) {
+        Object[] temp = c.toArray();
+        Node aux = head;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < temp.length; j++) {
+                if (aux.equals(temp[j])) {
+                    remove(i);
+                    if (i != 0)
+                        i -= 1;
+                }
+            }
         }
         return false;
     }
 
     @Override
-    public boolean retainAll(Collection c) {
-        return false;
-    }
-
-    @Override
-    public boolean removeAll(Collection c) {
-        return false;
-    }
-
-    @Override
     public boolean containsAll(Collection c) {
-        return false;
+        Object[] temp = c.toArray();
+        Node aux = head;
+        boolean contain = true;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < temp.length && contain == true; j++) {
+                if (aux.equals(temp[j])) {
+                    contain = true;
+                } else {
+                    contain = false;
+                }
+            }
+        }
+        return contain;
     }
 }

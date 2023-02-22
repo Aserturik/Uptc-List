@@ -306,7 +306,6 @@ public class UptcListTest  {
         List list = new UptcList();
         ListIterator listIterator = list.listIterator();
         listIterator.next();
-
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
