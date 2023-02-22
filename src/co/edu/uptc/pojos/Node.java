@@ -1,31 +1,31 @@
 package co.edu.uptc.pojos;
 
-public class Node {
-    private Object value;
-    private Node next;
+public class Node<T> {
+    private T value;
+    private Node<T> next;
 
-    public Node(Object value){
+    public Node(T value){
         this.value = value;
     }
 
-    public Node(Object value, Node next){
+    public Node(T value, Node<T> next){
         this.value = value;
         this.next = next;
     }
 
-    public void setNext(Node next){
+    public void setNext(Node<T> next){
         this.next = next;
     }
 
-    public void setValue(Object value){
+    public void setValue(T value){
         this.value = value;
     }
 
-    public Node getNext(){
+    public Node<T> getNext(){
         return next;
     }
 
-    public Object getValue(){
+    public T getValue(){
         return value;
     }
 }

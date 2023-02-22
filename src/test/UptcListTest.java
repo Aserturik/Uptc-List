@@ -1,14 +1,21 @@
 package test;
 
+
 import co.edu.uptc.model.dinamic.UptcList;
 import org.junit.Test;
+
+
 import java.util.*;
+
 import static org.junit.Assert.*;
 
-public class UptcListTest  {
+
+public class UptcListTest {
+
+
     @Test
     public void testIsEmpty() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         assertTrue(list.isEmpty());
         list.add("aaa");
         assertFalse(list.isEmpty());
@@ -22,7 +29,7 @@ public class UptcListTest  {
 
     @Test
     public void testIndexOf() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
 
         list.add("aaa");
         list.add("bbb");
@@ -36,7 +43,7 @@ public class UptcListTest  {
 
     @Test
     public void testLastIndexOf() {
-        List list = new UptcList();
+        List<String> list =  new UptcList<>();
         String a = "ddd";
         list.add("aaa");
         list.add(a);
@@ -51,12 +58,12 @@ public class UptcListTest  {
     @Test
     public void testIterator() {
         // TODO VALUDAR CON UPTCLIST
-        List list = new UptcList();
+        List<String> list =  new UptcList<>();
         list.add("1111");
         list.add("2222");
         list.add("3333");
         list.add("4444");
-        Iterator it = list.iterator();
+        Iterator<String> it = list.iterator();
 
         int pos = 0;
         while (it.hasNext()) {
@@ -72,12 +79,12 @@ public class UptcListTest  {
 
     @Test(expected = ConcurrentModificationException.class)
     public void testIteratorRemoveException() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1111");
         list.add("2222");
         list.add("3333");
         list.add("4444");
-        Iterator it = list.iterator();
+        Iterator<String> it = list.iterator();
         it.next();
         it.next();
         list.remove(2);
@@ -87,7 +94,8 @@ public class UptcListTest  {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testAdd() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
+
 
         list.add("1");
         list.add("2");
@@ -101,7 +109,7 @@ public class UptcListTest  {
 
     @Test
     public void testAdd2() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         System.out.println("Start: " + new Date());
         //for(int i = 0;i<10050000;i++){
         for (int i = 0; i < 10050; i++) {
@@ -115,7 +123,7 @@ public class UptcListTest  {
 
     @Test
     public void testAddIndex() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1");
         list.add("2");
         list.add("3");
@@ -129,7 +137,7 @@ public class UptcListTest  {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testAddIndexOut1() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1");
         list.add("2");
         list.add("3");
@@ -138,7 +146,7 @@ public class UptcListTest  {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testAddIndexOut2() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1");
         list.add("2");
         list.add("3");
@@ -147,7 +155,7 @@ public class UptcListTest  {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testSize() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         assertEquals(list.size(), 0);
 
         for (int i = 0; i < 40; i++) {
@@ -159,11 +167,12 @@ public class UptcListTest  {
         list.remove(38);
         assertEquals(list.size(), 38);
         list.remove(38);
+
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testDelete() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1");
         list.add("2");
         list.add("3");
@@ -175,8 +184,8 @@ public class UptcListTest  {
         aux = list.remove(1);
         assertEquals(aux, "3");
         assertEquals(list.size(), 1);
-        list.remove(-1);
         list.remove(10);
+        list.remove(-1);
     }
 
 
@@ -184,12 +193,12 @@ public class UptcListTest  {
 
     @Test
     public void testListIterator() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1111");
         list.add("2222");
         list.add("3333");
         list.add("4444");
-        ListIterator listIterator = list.listIterator();
+        ListIterator<String> listIterator = list.listIterator();
         assertEquals(listIterator.nextIndex(), 0);
         assertEquals(listIterator.previousIndex(), -1);
 
@@ -210,12 +219,12 @@ public class UptcListTest  {
 
     @Test
     public void testListIteratorRemove() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("11");
         list.add("22");
         list.add("33");
         list.add("44");
-        ListIterator listIterator = list.listIterator();
+        ListIterator<String> listIterator = list.listIterator();
         System.out.println(listIterator.next());
         // System.out.println( listIterator.next());
         System.out.println();
@@ -230,12 +239,12 @@ public class UptcListTest  {
     }
     @Test
     public void testListIteratorNextPrevious() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1111");
         list.add("2222");
         list.add("3333");
         list.add("4444");
-        ListIterator listIterator = list.listIterator();
+        ListIterator<String> listIterator = list.listIterator();
         int pos = 0;
         while (listIterator.hasNext()) {
             Object aaa = listIterator.next();
@@ -251,13 +260,13 @@ public class UptcListTest  {
 
     @Test
     public void testListIteratorAdd() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1111");
         list.add("2222");
         list.add("3333");
         list.add("4444");
 
-        ListIterator listIterator = list.listIterator();
+        ListIterator<String> listIterator = list.listIterator();
         listIterator.add("n5555");
         listIterator.add("n6666");
         assertEquals(list.get(0), "n5555");
@@ -269,10 +278,10 @@ public class UptcListTest  {
 
     @Test(expected = IllegalStateException.class)
     public void testListIteratorSetException(){
-        List list = new UptcList();
-        ListIterator listIterator = list.listIterator();
+        List<String> list = new UptcList<>();
+        ListIterator<String> listIterator = list.listIterator();
         listIterator.set("aaa");
-        list = new UptcList();
+        list =  new UptcList<>();
         list.add("1111");
         listIterator = list.listIterator();
         listIterator.set("aaa");
@@ -280,13 +289,13 @@ public class UptcListTest  {
 
     @Test
     public void testListIteratorSet(){
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1111");
-        ListIterator listIterator = list.listIterator();
+        ListIterator<String> listIterator = list.listIterator();
         listIterator.next();
         listIterator.set("aaa");
 
-        list = new UptcList();
+        list =  new UptcList<>();
         list.add("1111");
         list.add("2222");
         list.add("3333");
@@ -303,19 +312,20 @@ public class UptcListTest  {
 
     @Test(expected = NoSuchElementException.class)
     public void testListIteratorAddException() {
-        List list = new UptcList();
-        ListIterator listIterator = list.listIterator();
+        List<String> list = new UptcList<>();
+        ListIterator<String> listIterator = list.listIterator();
         listIterator.next();
+
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testListIteratorIndex() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("aaa");
         list.add("bbb");
         list.add("ccc");
 
-        ListIterator listIterator = list.listIterator(2);
+        ListIterator<String> listIterator = list.listIterator(2);
         assertEquals(listIterator.next(), "ccc");
 
         listIterator = list.listIterator(23);
@@ -324,7 +334,7 @@ public class UptcListTest  {
 
     @Test
     public void testToArray() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         Object[] objs = list.toArray();
         assertEquals(objs.length, 0);
         list.add("aaaa");
@@ -332,50 +342,51 @@ public class UptcListTest  {
         list.add("cccc");
         objs = list.toArray();
         assertEquals(objs.length, 3);
-        System.out.println("objs 1= " + objs[1]);
         assertEquals(objs[2], "cccc");
+
     }
     @Test
     public void testToArrayArray() {
-        List al = new UptcList();
+        List<Object> al =  new UptcList<>();
         al.add("aa");
         al.add("bb");
         al.add("cc");
         al.add("dd");
 
-        Object[] arr = {};
+        Object[] arr;
         //new Object[10];
         arr = al.toArray(new Object[2]);
         assertEquals(arr[0], "aa");
         assertEquals(arr[1], "bb");
         assertEquals(arr[2], "cc");
         assertEquals(arr[3], "dd");
-        System.out.println("aqui pasa");
 
         arr = al.toArray(new Object[6]);
         assertEquals(arr[0], "aa");
         assertEquals(arr[1], "bb");
         assertEquals(arr[2], "cc");
         assertEquals(arr[3], "dd");
-        assertEquals(arr[4], null);
-        assertEquals(arr[5], null);
+        assertNull(arr[4]);
+        assertNull(arr[5]);
+
+
     }
 
 
     @Test
     public void testRemoveAllCollection() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("aaa");
         list.add("ccc");
         list.add("bbb");
 
-        List list2 = new UptcList();
+        List<String> list2 =  new UptcList<>();
         list2.add("aaa1");
         list2.add("ccc1");
 
         assertFalse(list.removeAll(list2));
 
-        list2 = new UptcList();
+        list2 =  new UptcList<>();
         list2.add("aaa");
         list2.add("ccc");
         assertTrue(list.removeAll(list2));
@@ -385,12 +396,12 @@ public class UptcListTest  {
 
     @Test
     public void testRetainAll() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1");
         list.add("3");
         list.add("2");
 
-        List list2 = new UptcList();
+        List<String> list2 =  new UptcList<>();
         list2.add("1");
         list2.add("2");
         assertTrue(list.retainAll(list2));
@@ -402,7 +413,7 @@ public class UptcListTest  {
 
     @Test
     public void testContains() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1");
         list.add("2");
         list.add("3");
@@ -415,19 +426,19 @@ public class UptcListTest  {
 
     @Test
     public void testContainsAll() {
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("1");
         list.add("3");
         list.add("2");
 
-        List list2 = new UptcList();
+        List<String> list2 =  new UptcList<>();
         list2.add("3");
         list2.add("1");
         list2.add("33");
 
         assertFalse(list.containsAll(list2));
 
-        list2 = new UptcList();
+        list2 =  new UptcList<>();
         list2.add("3");
         list2.add("1");
         list2.add("3");
@@ -438,11 +449,11 @@ public class UptcListTest  {
 
     @Test
     public void testSubList(){
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         for (int i = 0; i < 10; i++) {
             list.add("aa:"+i);
         }
-        List sublist =  list.subList(2,6);
+        List<String> sublist =  list.subList(2,6);
 
         assertEquals(sublist.get(0),"aa:2");
         assertEquals(sublist.get(1),"aa:3");
@@ -458,14 +469,14 @@ public class UptcListTest  {
 
     @Test
     public void testAddAll(){
-        List list = new UptcList();
+        List<String> list = new UptcList<>();
         list.add("aa");
         list.add("bb");
         list.add("cc");
         list.add("dd");
         list.add("ee");
 
-        List list1 = new UptcList();
+        List<String> list1 =  new UptcList<>();
 
         assertFalse(list.addAll(list1));
 
@@ -479,6 +490,7 @@ public class UptcListTest  {
         assertEquals(list.get(5),"111");
         assertEquals(list.get(6),"222");
         assertEquals(list.get(7),"333");
+
     }
 
 }
