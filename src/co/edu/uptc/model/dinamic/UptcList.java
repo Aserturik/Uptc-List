@@ -23,18 +23,25 @@ public class UptcList implements List {
         if(index== 0){
             node.setNext(head);
             head = node;
-        }else{
+        }else if(index<0 || index > size){
+            throw new IndexOutOfBoundsException();
+        }else {
             Node tmp = getNode(index-1);
             node.setNext(tmp.getNext());
             tmp.setNext(node);
+            size++;
         }
     }
 
     @Override
     public Object get(int index) {
         Node tmp = head;
-        for (int i = 0; i < index; i++) {
-            tmp = tmp.getNext();
+        if(index > size+1 || index < 0){
+            throw new IndexOutOfBoundsException();
+        }else {
+            for (int i = 0; i < index; i++) {
+                tmp = tmp.getNext();
+            }
         }
         return tmp.getValue();
     }
@@ -62,10 +69,31 @@ public class UptcList implements List {
         return (indexOf(o) != -1);
     }
 
-    // A un por ver
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] objs = new Object[size];
+        for (int i = 0; i < objs.length; i++) {
+            objs[i] = getNode(i).getValue();
+        }
+        return objs;
+    }
+
+    @Override
+    public Object[] toArray(Object[] a) {
+        Object[] arr;
+        if(a.length <= size){
+            arr = toArray();
+        }else{
+            arr = new Object[size+(a.length-size)];
+            for (int i = 0; i < arr.length; i++) {
+                if(i < size){
+                    arr[i] = getNode(i).getValue();
+                }else {
+                    arr[i] = null;
+                }
+            }
+        }
+        return arr;
     }
 
     @Override
@@ -109,7 +137,9 @@ public class UptcList implements List {
         Node aux = head;
         if(index == 0){
             head = head.getNext();
-        }else {
+        }else if(index > size-1 || index < 0){
+            throw new IndexOutOfBoundsException();
+        } else {
             Node tmp = getNode(index - 1);
             aux = tmp.getNext();
             if (aux.getNext() != null) {
@@ -139,15 +169,16 @@ public class UptcList implements List {
     @Override
     public List subList(int fromIndex, int toIndex) {
         List list = new UptcList();
-        for (int i = fromIndex; i <toIndex ; i++) {
-            list.add(get(i));
+        if(fromIndex < 0 || toIndex > size-1){
+            throw new IndexOutOfBoundsException();
+        } else if (fromIndex > toIndex) {
+            throw new IllegalArgumentException();
+        } else {
+            for (int i = fromIndex; i < toIndex; i++) {
+                list.add(get(i));
+            }
         }
         return list;
-    }
-
-    @Override
-    public Object[] toArray(Object[] a) {
-        return new Object[0];
     }
 
     @Override
@@ -174,7 +205,7 @@ public class UptcList implements List {
             }
 
             @Override
-            public Object next() {
+            public Object next(){
                 return getNode(index++).getValue();
             }
         };
@@ -244,10 +275,16 @@ public class UptcList implements List {
     @Override
     public boolean addAll(Collection c) {
         Object[] temp = c.toArray();
-        for (int i = 0; i < temp.length; i++) {
-            add(temp[i]);
+        boolean isNotNull;
+        if(c.size() == 0){
+            isNotNull = false;
+        }else {
+            for (int i = 0; i < temp.length; i++) {
+                add(temp[i]);
+            }
+            isNotNull = true;
         }
-        return false;
+        return isNotNull;
     }
 
     @Override
