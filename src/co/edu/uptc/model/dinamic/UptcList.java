@@ -33,8 +33,12 @@ public class UptcList implements List {
     @Override
     public Object get(int index) {
         Node tmp = head;
-        for (int i = 0; i < index; i++) {
-            tmp = tmp.getNext();
+        if(index > size+1 || index < 0){
+            throw new IndexOutOfBoundsException();
+        }else {
+            for (int i = 0; i < index; i++) {
+                tmp = tmp.getNext();
+            }
         }
         return tmp.getValue();
     }
@@ -62,10 +66,31 @@ public class UptcList implements List {
         return (indexOf(o) != -1);
     }
 
-    // A un por ver
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] objs = new Object[size];
+        for (int i = 0; i < objs.length; i++) {
+            objs[i] = getNode(i).getValue();
+        }
+        return objs;
+    }
+
+    @Override
+    public Object[] toArray(Object[] a) {
+        Object[] arr;
+        if(a.length <= size){
+            arr = toArray();
+        }else{
+            arr = new Object[size+(a.length-size)];
+            for (int i = 0; i < arr.length; i++) {
+                if(i < size){
+                    arr[i] = getNode(i).getValue();
+                }else {
+                    arr[i] = null;
+                }
+            }
+        }
+        return arr;
     }
 
     @Override
@@ -109,7 +134,9 @@ public class UptcList implements List {
         Node aux = head;
         if(index == 0){
             head = head.getNext();
-        }else {
+        }else if(index > size || index < 0){
+            throw new IndexOutOfBoundsException();
+        } else {
             Node tmp = getNode(index - 1);
             aux = tmp.getNext();
             if (aux.getNext() != null) {
@@ -146,11 +173,6 @@ public class UptcList implements List {
     }
 
     @Override
-    public Object[] toArray(Object[] a) {
-        return new Object[0];
-    }
-
-    @Override
     public int lastIndexOf(Object o) {
         int index = -1;
         Node tmp = head;
@@ -174,7 +196,7 @@ public class UptcList implements List {
             }
 
             @Override
-            public Object next() {
+            public Object next(){
                 return getNode(index++).getValue();
             }
         };
